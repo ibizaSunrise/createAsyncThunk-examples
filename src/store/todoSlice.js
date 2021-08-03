@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+//createAsyncThunk
 export const fetchTodos = createAsyncThunk(
     'todos/fetchTodos',
     async function (_, {rejectWithValue, getState}) {
@@ -26,12 +27,39 @@ export const deleteTodo = createAsyncThunk(
             const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
                 metchod: 'DELETE',
             })
-            console.log(response)
+          
             if(!response.ok){
                 throw new Error('Can\'t delete task. Server edrror.');
             }
 
             dispatch(removeTodo(id))
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+export const toggleStatus = createAsyncThunk(
+    'todos/toggleStatus',
+    async function(id, {rejectWithValue, dispatch, getState}){
+        const todo = getState().todos.todos.find(todo => todo.id === id)
+        try {
+            const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    complited: !todo.compited,
+                })
+            })
+            if(!response.ok){
+                throw new Error('Can\'t toggle status. Server edrror.');
+            }
+            const data = await response.json();
+            console.log(data)
+            dispatch(toggleTodoComplete(id))
+
         } catch (error) {
             return rejectWithValue(error.message)
         }
@@ -82,6 +110,7 @@ const todoSlice = createSlice({
         },
         [fetchTodos.rejected]: setError,
         [deleteTodo.rejected]: setError,
+        [toggleStatus.rejected]: setError,
 
     }
 

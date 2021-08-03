@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {addTodo, deleteTodo, toggleTodoComplete, fetchTodos} from './store/todoSlice'
+import {addTodo, deleteTodo, toggleStatus, fetchTodos} from './store/todoSlice'
 
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
     {error && <h2>An error occurred while processing your request: {error}</h2>}
 
     {todos.map(el => <div key = {el.id}>
-      <input type="checkbox" checked = {el.completed} onChange = {() => dispatch(toggleTodoComplete(el.id))}/>
+      <input type="checkbox" checked = {el.completed} onChange = {() => dispatch(toggleStatus(el.id))}/>
       <span>{el.title}</span>
       <button onClick = {(e) => handleRemoveClick(e,el.id)}>X</button>
       </div>)}
