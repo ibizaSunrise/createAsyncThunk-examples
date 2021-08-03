@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {addTodo, removeTodo, toggleTodoComplete, fetchTodos} from './store/todoSlice'
+import {addTodo, deleteTodo, toggleTodoComplete, fetchTodos} from './store/todoSlice'
 
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
 
   function handleRemoveClick(e,id){
     e.preventDefault()
-    dispatch(removeTodo(id))
+    dispatch(deleteTodo(id))
   }
 
   useEffect(() => {
