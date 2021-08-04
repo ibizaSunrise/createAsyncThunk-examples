@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {addTodo, deleteTodo, toggleStatus, fetchTodos} from './store/todoSlice'
+import {addNewTodo, deleteTodo, toggleStatus, fetchTodos} from './store/todoSlice'
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   const dispatch = useDispatch()
 
   function handlerClickAddTodo(){
-    dispatch(addTodo({text}))
+    dispatch(addNewTodo(text))
     setText('')
   }
 
